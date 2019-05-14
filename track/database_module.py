@@ -28,8 +28,8 @@ class DatabaseManager:
     def get_user(self, user_name):
         cursor = self.connection.cursor()
         try:
-            cursor.execute("""SELECT * FROM users WHERE user_name = :user_name""",
-                           {'user_name': user_name})
+            cursor.execute("""SELECT * FROM users WHERE fio = :fio""",
+                           {'fio': user_name})
         except sqlite3.DatabaseError as error:
             print('Error: ', error, '2')
             result = [False, True]
@@ -47,8 +47,8 @@ class DatabaseManager:
     def get_registration(self, user_name: str = '', password: str = '') -> list:
         cursor = self.connection.cursor()
         try:
-            cursor.execute("""SELECT * FROM users WHERE user_name = :user_name""",
-                           {'user_name': user_name})
+            cursor.execute("""SELECT * FROM users WHERE fio = :fio""",
+                           {'fio': user_name})
         except sqlite3.DatabaseError as error:
             print('Error: ', error, '2')
             result = [False, True]
