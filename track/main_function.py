@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from little_fuction import *
 
-
 def handle_dialog(request, response, user_storage, database):
     if not user_storage:
         user_storage = {"suggests": ['Войти']}
