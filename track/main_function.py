@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from little_fuction import *
 
+
 def handle_dialog(request, response, user_storage, database):
     if not user_storage:
         user_storage = {"suggests": ['Войти']}
@@ -11,6 +12,9 @@ def handle_dialog(request, response, user_storage, database):
 
     if request.is_new_session:
         user_storage = {"suggests": ['Войти']}
+        output_message = "Привет нажми Войти."
+        return message_return(response, user_storage, output_message)
+
     ###
     ###
     if request.user_id not in database.get_session(all=True):
@@ -204,8 +208,8 @@ def handle_dialog(request, response, user_storage, database):
     #         output_message = 'Упс, что-то пошло не так)'
     #     user_storage = {'suggests': ['Распечатать историю диалога', 'Друзья', 'Группы', 'Найти', 'Помощь', 'Главная']}
     #     return message_return(response, user_storage, output_message)
-    #
-    # buttons, user_storage = get_suggests(user_storage)
-    # return message_error(response, user_storage,
-    #                      ['Конфуз;) Я ещё в разработке', 'Ой, сейчас исправлю)'
-    #                       ])
+
+    buttons, user_storage = get_suggests(user_storage)
+    return message_error(response, user_storage,
+                          ['Конфуз;) Я ещё в разработке', 'Ой, сейчас исправлю)'
+                           ])
