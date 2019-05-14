@@ -11,8 +11,8 @@ class DatabaseManager:
         cursor = self.connection.cursor()
         cursor.execute('PRAGMA foreign_key=1')
         cursor.execute('''CREATE TABLE IF NOT EXISTS users
-                            (fio VARCHAR(128) PRIMARY KEY,
-                             password VARCHAR(128),
+                            (user_name VARCHAR(128) PRIMARY KEY,
+                             password_hash VARCHAR(128),
                              status INTEGER)''')
         cursor.execute('''CREATE TABLE IF NOT EXISTS sessions
                                     (user_id TEXT,
@@ -28,8 +28,8 @@ class DatabaseManager:
     def get_user(self, user_name):
         cursor = self.connection.cursor()
         try:
-            cursor.execute("""SELECT * FROM users WHERE fio = :fio""",
-                           {'fio': user_name})
+            cursor.execute("""SELECT * FROM users WHERE user_name = :user_name""",
+                           {'user_name': user_name})
         except sqlite3.DatabaseError as error:
             print('Error: ', error, '2')
             result = [False, True]
@@ -47,8 +47,8 @@ class DatabaseManager:
     def get_registration(self, user_name: str = '', password: str = '') -> list:
         cursor = self.connection.cursor()
         try:
-            cursor.execute("""SELECT * FROM users WHERE fio = :fio""",
-                           {'fio': user_name})
+            cursor.execute("""SELECT * FROM users WHERE user_name = :user_name""",
+                           {'user_name': user_name})
         except sqlite3.DatabaseError as error:
             print('Error: ', error, '2')
             result = [False, True]
@@ -66,7 +66,7 @@ class DatabaseManager:
         print(result)
         return result
 
-    # def add_user(self, user_name: str = '', password: str = '') -> bool:
+    # def add_user(self, user_name: str = '', password_hash: str = '') -> bool:
     #     cursor = self.connection.cursor()
     #     try:
     #         if not self.get_registration(user_name, password)[0]:

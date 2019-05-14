@@ -7,11 +7,17 @@ class UsersModel:
 
     def init_table(self):
         cursor = self.connection.cursor()
-        cursor.execute('''CREATE TABLE IF NOT EXISTS users 
-                            (id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                             user_name VARCHAR(50),
-                             password_hash VARCHAR(128)
-                             )''')
+        cursor.execute('''CREATE TABLE IF NOT EXISTS users
+                            (user_name VARCHAR(128) PRIMARY KEY,
+                             password_hash VARCHAR(128),
+                             status INTEGER)''')
+
+        cursor.execute('''CREATE TABLE IF NOT EXISTS sessions
+                                    (user_id TEXT,
+                                    global_status VARCHAR(50),
+                                    user_name VARCHAR(50),
+                                    recipient_name VARCHAR(50),
+                                    status_action VARCHAR(50))''')
         cursor.close()
         self.connection.commit()
 

@@ -3,7 +3,7 @@
  
 class DB:
     def __init__(self):
-        conn = sqlite3.connect('dish.db', check_same_thread=False)
+        conn = sqlite3.connect('track/data/news.db', check_same_thread=False)
         self.conn = conn
 
     def get_connection(self):
