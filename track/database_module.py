@@ -7,21 +7,13 @@ class DatabaseManager:
         if 'data' not in __import__('os').listdir('.'):
             __import__('os').mkdir('data')
 
-        self.connection = sqlite3.connect("data/alisa_users.db", isolation_level=None)
+        self.connection = sqlite3.connect("data/news.db", isolation_level=None)
         cursor = self.connection.cursor()
         cursor.execute('PRAGMA foreign_key=1')
         cursor.execute('''CREATE TABLE IF NOT EXISTS users
-                            (user_name VARCHAR(128) PRIMARY KEY,
+                            (fio VARCHAR(128) PRIMARY KEY,
                              password VARCHAR(128),
                              status INTEGER)''')
-        cursor.execute('''CREATE TABLE IF NOT EXISTS friends
-                            (user_name1 VARCHAR(128),
-                            user_name2 VARCHAR(128))''')
-        cursor.execute('''CREATE TABLE IF NOT EXISTS messages
-                            (user_name1 VARCHAR(128),
-                            message VARCHAR(128),
-                            user_name2 VARCHAR(128),
-                            status INTEGER)''')
         cursor.execute('''CREATE TABLE IF NOT EXISTS sessions
                                     (user_id TEXT,
                                     global_status VARCHAR(50),
