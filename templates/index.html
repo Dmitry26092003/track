@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+    <a href="/add_dish">Добавить рецепт</a>
+    {% for item in dish %}
+    <div class="alert alert-dark" role="alert">
+        <h2>{{item[1]}}</h2>
+        <div>{{item[2]}}</div>
+        <div>{{item[3]}}</div>
+        {% if "user_id" %}
+            <a href="/delete_recipe/{{item[0]}}">Удалить рецепт</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+{% endblock %}

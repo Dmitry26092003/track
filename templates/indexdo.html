@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="/add_news">Добавить рецепт</a>
+    {% for item in dish %}
+    <div class="alert alert-dark" role="alert">
+        <h2>{{item[1]}}</h2>
+        <div>{{item[2]}}</div>
+        <div>Сделанно {{username}}</div>
+        <a href="/delete_news/{{item[0]}}">Удалить рецепта</a>
+    </div>
+    {% endfor %}
+{% endblock %}
+</body>
+</html>
