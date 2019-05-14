@@ -51,15 +51,6 @@ def update_status_system(new: str, type: str = 'global_status'):
     json.dump(f, open('data/status' + ".json", 'w', encoding="utf-8"))
 
 
-def choice_wrd(last_char, used_words):
-    if type(used_words) is not list:
-        used_words = []
-    user_word = random.choice(read_answers_data("data/words")[last_char])
-    while user_word in used_words:
-        user_word = random.choice(read_answers_data("data/words")[last_char])
-    return user_word
-
-
 # Ну вот эта функция всем функциям функция, ага. Замена постоянному формированию ответа, ага, экономит 4 строчки!!
 def message_return(response, user_storage, message):  # ща будет магия
     response.set_text(message)
@@ -67,13 +58,3 @@ def message_return(response, user_storage, message):  # ща будет маги
     buttons, user_storage = get_suggests(user_storage)
     response.set_buttons(buttons)
     return response, user_storage
-
-
-def check_wrd(wrd):
-    url_for_request = BASIC_REQUEST.replace('TRANS', "ru-ru").replace('TEXTWORD', wrd)
-    response = requests.get(url_for_request).json()
-    if 'code' in response.keys():
-        return ERRORS[response['code']]
-    else:
-        dct = read_answers_data("data/words")
-        return len(response['def']) > 0 or (wrd[0] in dct.keys() and wrd in dct[wrd[0][0]])
