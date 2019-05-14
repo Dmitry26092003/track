@@ -74,26 +74,26 @@ class DatabaseManager:
         print(result)
         return result
 
-    def add_user(self, user_name: str = '', password: str = '') -> bool:
-        cursor = self.connection.cursor()
-        try:
-            if not self.get_registration(user_name, password)[0]:
-                cursor.execute('''INSERT INTO users
-                          (user_name, password, status)
-                          VALUES (?,?,1)''',
-                               (user_name, password))
-                print('Регистрация пользователя {} прошла успешно.'.format(user_name))
-            elif self.get_registration(user_name, password)[1]:
-                print('Произведен вход пользователя {}.'.format(user_name))
-                cursor.close()
-                return False
-        except sqlite3.DatabaseError as error:
-            print('Error: ', error, '3')
-            cursor.close()
-            return False
-        else:
-            cursor.close()
-            return True
+    # def add_user(self, user_name: str = '', password: str = '') -> bool:
+    #     cursor = self.connection.cursor()
+    #     try:
+    #         if not self.get_registration(user_name, password)[0]:
+    #             cursor.execute('''INSERT INTO users
+    #                       (user_name, password, status)
+    #                       VALUES (?,?,1)''',
+    #                            (user_name, password))
+    #             print('Регистрация пользователя {} прошла успешно.'.format(user_name))
+    #         elif self.get_registration(user_name, password)[1]:
+    #             print('Произведен вход пользователя {}.'.format(user_name))
+    #             cursor.close()
+    #             return False
+    #     except sqlite3.DatabaseError as error:
+    #         print('Error: ', error, '3')
+    #         cursor.close()
+    #         return False
+    #     else:
+    #         cursor.close()
+    #         return True
 
     def update_status(self, user_name: str, status: int) -> bool:
         cursor = self.connection.cursor()

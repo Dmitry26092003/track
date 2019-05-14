@@ -1,20 +1,25 @@
 # coding: utf-8
 from __future__ import unicode_literals
-from little_fuctions import *
+
+from little_fuction import *
 
 
 def handle_dialog(request, response, user_storage, database):
     if not user_storage:
-        user_storage = {"suggests": ['Помощь']}
-    input_message = request.command.lower()
-    print("           result111000       ", database.get_session(all=True))
+        user_storage = {"suggests": ['Войти']}
 
+    input_message = request.command.lower()
+
+    if request.is_new_session:
+        user_storage = {"suggests": ['Войти']}
+    ###
+    ###
     if request.user_id not in database.get_session(all=True):
         database.add_session(request.user_id)
 
     if input_message in ['выйти', 'выход']:
         output_message = "Обращайтесь ещё!)"
-        user_storage = {'suggests': ['Помощь', 'Войти']}
+        user_storage = {'suggests': ['Войти']}
         database.update_status(database.get_session(request.user_id, 'user_name')[0], 0)
         database.update_status_system('out', request.user_id)
         database.update_status_system('login', request.user_id, 'status_action')
@@ -32,16 +37,18 @@ def handle_dialog(request, response, user_storage, database):
                 database.update_status_system(input_message[0], request.user_id, 'user_name')
                 database.update_status_system('working', request.user_id, 'status_action')
             else:
-                output_message = "Упс! Похоже Вы неправильно ввели свои данные. Попробуйте ещё раз)"
+                output_message = "Упс! Похоже Вы неправильно ввели ваш пароль. Попробуйте ещё раз)"
         else:
-            database.add_user(input_message[0], input_message[1])
-            output_message = "Добро пожаловать {}!".format(input_message[0])
-            user_storage = {'suggests': [
-                'Друзья', 'Группы', 'Найти', 'Написать сообщение', 'Помощь', 'Выход'
-            ]}
-            database.update_status_system('in', request.user_id)
-            database.update_status_system(input_message[0], request.user_id, 'user_name')
-            database.update_status_system('working', request.user_id, 'status_action')
+            output_message = "Упс! Похоже Вы неправильно ввели ваш логин. Попробуйте ещё раз)"
+        # else:
+        #     database.add_user(input_message[0], input_message[1])
+        #     output_message = "Добро пожаловать {}!".format(input_message[0])
+        #     user_storage = {'suggests': [
+        #         'Друзья', 'Группы', 'Найти', 'Написать сообщение', 'Помощь', 'Выход'
+        #     ]}
+        #     database.update_status_system('in', request.user_id)
+        #     database.update_status_system(input_message[0], request.user_id, 'user_name')
+        #     database.update_status_system('working', request.user_id, 'status_action')
         return message_return(response, user_storage, output_message)
 
     if request.is_new_session or input_message in ['войти', 'регистрация']:
